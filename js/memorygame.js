@@ -61,7 +61,6 @@ export default class MemoryGame {
   renderBoard() {
     const ul = document.querySelector('.cards');
     ul.innerHTML = '';
-    document.querySelector('.win').textContent = '';
     for (let i = 0; i < this.numberOfCards; i += 1) {
       const li = document.createElement('li');
       li.className = 'card';
@@ -100,7 +99,7 @@ export default class MemoryGame {
     backMenu.style.display = 'none';
     overFlow.style.display = 'none';
     document.querySelector('.menu').style.display = 'none';
-    document.querySelector('.cardBoard').style.display = 'block';
+    document.querySelector('.game').style.display = 'block';
     this.tryMatchNumber = 0;
     this.createCards();
     document.querySelector('.tryNumber strong').textContent = '0';
@@ -168,17 +167,11 @@ export default class MemoryGame {
   endOfGame() {
     this.setTimer(0);
     play.style.display = 'block';
-    overFlow.style.display = 'block';
-    const win = document.querySelector('.win');
+    overFlow.style.display = 'flex';
+    const yourScore = document.querySelector('.yourScore');
     backMenu.style.display = 'block';
-    win.textContent = 'You Win';
+    yourScore.textContent = `Your Score: ${this.points()}`;
     this.saveToLocalStorageScore();
-    setTimeout(() => {
-      win.classList.add('on');
-    }, 100);
-    setTimeout(() => {
-      win.classList.remove('on');
-    }, 450);
   }
 
   points() {

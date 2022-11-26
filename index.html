@@ -13,18 +13,21 @@
 </head>
 <body>
     <div class="app">
-        <div class="cardBoard">
+        <div class="game">
             <div class="statistics">
                 <div class="tryNumber">Number of tries: <strong>0</strong></div>
                 <div class="timer">Time: <strong>0</strong>s</div>
             </div>
             <ul class="cards">
             </ul>
-            <div class="overflow"></div>
-            <div>
-                <button class="play">Play</button>
-                <button class="backMenu">Menu</button>
-                <div class="win"></div>
+            <div class="overflow">
+                <div class="lvlComplete">
+                    <div class="yourScore"></div>
+                    <div class="buttonsSection">
+                        <button class="backMenu">Menu</button>
+                        <button class="play">Play Again</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="menu">
@@ -33,7 +36,6 @@
                 <button class="btn-play">Play</button>
                 <button class="btn-score-table">Score Table</button>
                 <button class="btn-options">Options</button>
-                <footer>© MemoryGame By Kamil Bieniek</footer>
             </div>
             <div class="options">
                 <h1>Memory Game</h1>
@@ -48,14 +50,16 @@
                         <label class="actualValueOfCards">2</label>
                     </div>
                 </div>
+                <div class="containerMenu">
+                    <h2>ScoreTable</h2>
+                    <button class="resetScoreTable">Reset</button>
+                </div>
                 <button class="back">Back</button>
-                <footer>© MemoryGame By Kamil Bieniek</footer>
             </div>
             <div class="score">
                 <h1>Memory Game</h1>
                 <div class="scoreTable"></div>
                 <button class="back">Back</button>
-                <footer>© MemoryGame By Kamil Bieniek</footer>
             </div>
         </div>
     </div>

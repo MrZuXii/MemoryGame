@@ -53,6 +53,10 @@ class Menu {
     scoreTable.append(table);
   }
 
+  resetScoreTable() {
+    localStorage.setItem('scores', '');
+  }
+
   options() {
     document.querySelector('.mainMenu').style.display = 'none';
     document.querySelector('.score').style.display = 'none';
@@ -77,7 +81,7 @@ class Menu {
   menu() {
     document.querySelector('.options').style.display = 'none';
     document.querySelector('.score').style.display = 'none';
-    document.querySelector('.cardBoard').style.display = 'none';
+    document.querySelector('.game').style.display = 'none';
     document.querySelector('.mainMenu').style.display = 'flex';
     document.querySelector('.menu').style.display = 'block';
   }
@@ -90,6 +94,7 @@ class Menu {
     document.querySelectorAll('.back')[1].addEventListener('click', () => this.menu());
     document.querySelector('.play').addEventListener('click', () => this.play());
     document.querySelector('.backMenu').addEventListener('click', () => this.menu());
+    document.querySelector('.resetScoreTable').addEventListener('click', () => this.resetScoreTable());
   }
 }
 
