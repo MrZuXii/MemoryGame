@@ -2,15 +2,21 @@
     margin: 0;
     padding: 0;
 }
+:root {
+    --btnColour: #3a3a3a; /*#242424;*/
+}
 
 html {
     font-family: 'Ubuntu', sans-serif;
 }
 
 body {
-    background-image: url(https://images.unsplash.com/photo-1598983870677-01e066a0b901?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80);
-    background-size: cover;
-    background-color: #828282;
+    /*background-image: url(https://images.unsplash.com/photo-1598983870677-01e066a0b901?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80);*/
+    /*background-size: cover;*/
+    /*background-color: #828282;*/
+    background: linear-gradient(29deg, #2d8eff, #0006b9);
+    animation: Gradient 9s cubic-bezier(0.4, 0, 1, 1) infinite;
+    background-size: 1000% 1000%;
 }
 
 .app {
@@ -133,11 +139,12 @@ body {
     box-sizing: border-box;
     height: 270px;
     border-radius: 5px;
+    transform: scale(1.1);
 }
 
 .play,.backMenu{
     color: white;
-    background: #242424;
+    background: var(--btnColour);
     border: 0;
     font-size: 17px;
     font-weight: 500;
@@ -151,11 +158,6 @@ body {
     width: 130px;
 }
 
-/*.play {*/
-/*}*/
-
-/*.backMenu {*/
-/*}*/
 .yourScore {
     color: white;
     height: 50px;
@@ -184,6 +186,7 @@ body {
     width: 100%;
     border: 6px solid #000;
     box-sizing: border-box;
+    transform: scale(1.1);
 }
 
 .menu h1 {
@@ -198,7 +201,7 @@ body {
     padding: 16px;
     border-radius: 10px;
     cursor: pointer;
-    background: #242424;
+    background: var(--btnColour);
     color: white;
     border: 0;
     border-bottom: 6px solid #000;
@@ -320,8 +323,29 @@ footer {
         flex-basis: calc(25% - 8px);
     }
 
+    .lvlComplete {
+        transform: scale(1);
+    }
+
+    .menu {
+        transform: scale(1);
+    }
     .menu, .lvlComplete {
         width: 96%;
     }
 
+}
+
+/* Animation */
+
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
 }
