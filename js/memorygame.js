@@ -1,10 +1,11 @@
-import { Card } from './card.js';
+import Card from './card.js';
 
 const play = document.querySelector('.play');
 const overFlow = document.querySelector('.overflow');
 const backMenu = document.querySelector('.backMenu');
+let intervalID;
 
-class MemoryGame {
+export default class MemoryGame {
   constructor(numberOfCards = 10, name = 'Bezimienny') {
     this.images = [
       'images/crocodile.png',
@@ -32,7 +33,6 @@ class MemoryGame {
     this.flipCardTime = 500;
     this.tryMatchNumber = 0;
     this.timer = 0;
-    this.intervalId = 0;
     this.localStorageScore = (localStorage.getItem('scores') ? [...JSON.parse(localStorage.getItem('scores'))] : []);
     this.name = name;
   }
@@ -61,10 +61,10 @@ class MemoryGame {
   renderBoard() {
     const ul = document.querySelector('.cards');
     ul.innerHTML = '';
-    const win = document.querySelector('.win').textContent = '';
-    for (let i = 0; i < this.numberOfCards; i++) {
+    document.querySelector('.win').textContent = '';
+    for (let i = 0; i < this.numberOfCards; i += 1) {
       const li = document.createElement('li');
-      li.classList = 'card';
+      li.className = 'card';
       const divFront = document.createElement('div');
       divFront.classList.add('frontCard');
       const divBack = document.createElement('div');
@@ -86,13 +86,12 @@ class MemoryGame {
     if (option === 1) {
       const saveData = (new Date()).getTime();
       const timerStrong = document.querySelector('.timer strong');
-      this.intervalID = setInterval(() => {
+      intervalID = setInterval(() => {
         this.timer = (((new Date().getTime()) - saveData) / 1000).toFixed();
         timerStrong.textContent = this.timer;
       }, 1000);
     } else {
-      clearInterval(this.intervalID);
-      // console.log(this.intervalID);
+      clearInterval(intervalID);
     }
   }
 
@@ -104,9 +103,9 @@ class MemoryGame {
     document.querySelector('.cardBoard').style.display = 'block';
     this.tryMatchNumber = 0;
     this.createCards();
-    document.querySelector('.tryNumber strong').textContent = 0;
+    document.querySelector('.tryNumber strong').textContent = '0';
     this.setTimer(1);
-    document.querySelector('.timer strong').textContent = 0;
+    document.querySelector('.timer strong').textContent = '0';
   }
 
   gameFlipCard(card) {
@@ -124,11 +123,16 @@ class MemoryGame {
 
   checkCard() {
     const tryMatchNumberStrong = document.querySelector('.tryNumber strong');
-    tryMatchNumberStrong.textContent = ++this.tryMatchNumber;
+    this.tryMatchNumber += 1;
+    tryMatchNumberStrong.textContent = this.tryMatchNumber;
 
     if (this.flipCard[0].dataset.id === this.flipCard[1].dataset.id) {
-      this.playCards.splice(this.playCards.findIndex((e) => e.id === Number(this.flipCard[0].dataset.id)), 1);
-      this.playCards.splice(this.playCards.findIndex((e) => e.id === Number(this.flipCard[0].dataset.id)), 1);
+      this.playCards.splice(this.playCards.findIndex(
+        (e) => e.id === Number(this.flipCard[0].dataset.id),
+      ), 1);
+      this.playCards.splice(this.playCards.findIndex(
+        (e) => e.id === Number(this.flipCard[0].dataset.id),
+      ), 1);
       this.flipCard[0].classList.add('checked');
       this.flipCard[1].classList.add('checked');
       this.flipCard = [];
@@ -153,7 +157,7 @@ class MemoryGame {
   }
 
   randomCards() {
-    for (let i = this.playCards.length - 1; i > 0; --i) {
+    for (let i = this.playCards.length - 1; i > 0; i -= 1) {
       const swap = Math.floor(Math.random() * i);
       const tmp = this.playCards[i];
       this.playCards[i] = this.playCards[swap];
@@ -166,7 +170,6 @@ class MemoryGame {
     play.style.display = 'block';
     overFlow.style.display = 'block';
     const win = document.querySelector('.win');
-    const backMenu = document.querySelector('.backMenu');
     backMenu.style.display = 'block';
     win.textContent = 'Wygrałeś';
     this.saveToLocalStorageScore();
@@ -176,13 +179,11 @@ class MemoryGame {
     setTimeout(() => {
       win.classList.remove('on');
     }, 450);
-
-    this.points();
   }
 
   points() {
-    const points = (2000 - (this.timer * 3) - (this.tryMatchNumber * 10)) ? (2000 - (this.timer * 3) - (this.tryMatchNumber * 10) + (this.numberOfCards * 30)) : 0;
-    return points;
+    return (2000 - (this.timer * 3) - (this.tryMatchNumber * 10))
+      ? (2000 - (this.timer * 3) - (this.tryMatchNumber * 10) + (this.numberOfCards * 30)) : 0;
   }
 
   saveToLocalStorageScore() {
@@ -196,4 +197,3 @@ class MemoryGame {
     localStorage.setItem('scores', JSON.stringify(this.localStorageScore));
   }
 }
-export { MemoryGame };

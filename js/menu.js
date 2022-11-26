@@ -1,8 +1,13 @@
-import { MemoryGame } from './memorygame.js';
+import MemoryGame from './memorygame.js';
 
+/* TODO Po skończeniu gry dodać napis zwycięstwo i dwa buttony zagraj ponownie i wyniki
+   TODO dodać animacje trzęsienie jak jest zła karta itp.
+   TODO Dodać menu startowe z opcjami: Graj, Dźwiek, Opcje, Tablica wyników
+   TODO Dodać inne obrazki
+*/
 class Menu {
   constructor() {
-    this.name = (localStorage.getItem('name') ? localStorage.getItem('name') : 'Bezimienny');
+    this.name = (localStorage.getItem('name') ? localStorage.getItem('name') : 'Anonymous');
     this.numberOfCards = (localStorage.getItem('numberofcards') ? localStorage.getItem('numberofcards') : 10);
   }
 
@@ -11,136 +16,87 @@ class Menu {
     game.gameStart();
   }
 
-  options() {
-    this.renderMenu(1);
-  }
-
   scoreTable() {
-    const menu = document.querySelector('.menu');
-    const h1 = document.createElement('h1');
-    h1.textContent = 'Memory Game';
-    menu.innerHTML = '';
-    const btnBack = document.createElement('button');
-    btnBack.textContent = 'Wróć';
-    btnBack.addEventListener('click', () => this.renderMenu());
-    menu.appendChild(h1);
     const localStorageScore = (localStorage.getItem('scores') ? [...JSON.parse(localStorage.getItem('scores'))] : []);
     const table = document.createElement('table');
     const tbody = document.createElement('tbody');
     const tr = document.createElement('tr');
     const tdName = document.createElement('td');
     const tdRank = document.createElement('td');
-    tdRank.textContent = '#';
-    const divContainer = document.createElement('div');
-    divContainer.style.overflow = 'auto';
-    divContainer.style.width = '80%';
-    tdName.textContent = 'Imię';
     const tdScore = document.createElement('td');
-    tdScore.textContent = 'Wynik';
+    const scoreTable = document.querySelector('.scoreTable');
+
+    document.querySelector('.score').style.display = 'flex';
+    document.querySelector('.mainMenu').style.display = 'none';
+
+    scoreTable.innerHTML = '';
+    tdRank.textContent = '#';
+    tdName.textContent = 'Name';
+    tdScore.textContent = 'Score';
     tr.append(tdRank, tdName, tdScore);
     tbody.appendChild(tr);
+
     const sortByRank = localStorageScore.sort((a, b) => {
       if (a.points < b.points) return 1;
       if (a.points > b.points) return -1;
       return 0;
     });
-    for (const [index, item] of sortByRank.entries()) {
-      const tr = document.createElement('tr');
-      const trName = document.createElement('td');
-      const tdRank = document.createElement('td');
-      const tdScore = document.createElement('td');
 
-      trName.textContent = item.name;
-      tdScore.textContent = item.points;
-      tdRank.textContent = index + 1;
-      tr.append(tdRank, trName, tdScore);
-      tbody.appendChild(tr);
+    for (const [index, item] of sortByRank.entries()) {
+      const NewTr = document.createElement('tr');
+      const NewTrName = document.createElement('td');
+      const NewTdRank = document.createElement('td');
+      const NewTdScore = document.createElement('td');
+      NewTrName.textContent = item.name;
+      NewTdScore.textContent = item.points;
+      NewTdRank.textContent = String(index + 1);
+      NewTr.append(NewTdRank, NewTrName, NewTdScore);
+      tbody.appendChild(NewTr);
     }
+
     table.appendChild(tbody);
-    divContainer.appendChild(table);
-    menu.append(divContainer, btnBack);
+    scoreTable.append(table);
   }
 
-  renderMenu(key) {
-    const menu = document.querySelector('.menu');
-    const h1 = document.createElement('h1');
-    h1.textContent = 'Memory Game';
-    menu.innerHTML = '';
-    const btnBack = document.createElement('button');
-    btnBack.textContent = 'Wróć';
-    btnBack.addEventListener('click', () => this.renderMenu());
+  options() {
+    document.querySelector('.mainMenu').style.display = 'none';
+    document.querySelector('.score').style.display = 'none';
+    document.querySelector('.options').style.display = 'flex';
+    const numberOfCardsInput = document.querySelector('.numberOfCardsInput');
+    const nameInput = document.querySelector('.name');
+    const label = document.querySelector('.actualValueOfCards');
+    label.textContent = this.numberOfCards;
+    numberOfCardsInput.value = (this.numberOfCards / 2);
+    nameInput.value = this.name;
+    nameInput.addEventListener('input', (e) => {
+      this.name = e.target.value;
+      localStorage.setItem('name', this.name);
+    });
+    numberOfCardsInput.addEventListener('input', (e) => {
+      this.numberOfCards = Number(e.target.value) * 2;
+      label.textContent = this.numberOfCards;
+      localStorage.setItem('numberofcards', this.numberOfCards);
+    });
+  }
 
-    const btnPlay = document.createElement('button');
-    const cardBoard = document.querySelector('.cardBoard');
-    const btnScoreTable = document.createElement('button');
-    const btnOptions = document.createElement('button');
-    const footer = document.createElement('footer');
+  menu() {
+    document.querySelector('.options').style.display = 'none';
+    document.querySelector('.score').style.display = 'none';
+    document.querySelector('.cardBoard').style.display = 'none';
+    document.querySelector('.mainMenu').style.display = 'flex';
+    document.querySelector('.menu').style.display = 'block';
+  }
 
-    const inputRange = document.createElement('input');
-    const inputText = document.createElement('input');
-    const label = document.createElement('label');
-    const div = document.createElement('div');
-
-    switch (key) {
-      case 1:
-        menu.appendChild(h1);
-
-        inputText.value = this.name;
-        inputText.type = 'text';
-        inputText.classList = 'name';
-        inputRange.min = 1;
-        inputRange.max = 13;
-        inputRange.type = 'range';
-        label.textContent = this.numberOfCards;
-        inputRange.value = (this.numberOfCards / 2);
-        inputRange.addEventListener('input', (e) => {
-          this.numberOfCards = Number(e.target.value) * 2;
-          label.textContent = this.numberOfCards;
-          localStorage.setItem('numberofcards', this.numberOfCards);
-        });
-        inputText.addEventListener('input', (e) => {
-          this.name = e.target.value;
-          localStorage.setItem('name', this.name);
-        });
-        div.append(inputRange, label);
-        menu.append(div, inputText, btnBack);
-        break;
-
-      default:
-
-        cardBoard.style.display = 'none';
-
-        btnOptions.textContent = 'Opcje';
-        btnOptions.classList = 'btn-options';
-        btnOptions.addEventListener('click', () => this.options());
-
-        btnPlay.textContent = 'graj';
-        btnPlay.classList = 'btn-play';
-        btnPlay.addEventListener('click', () => this.play());
-
-        btnScoreTable.textContent = 'Tablica Wyników';
-        btnScoreTable.classList = 'btn-score-table';
-        btnScoreTable.addEventListener('click', () => this.scoreTable());
-
-        footer.textContent = '© MemoryGame By Kamil Bieniek';
-
-        menu.style.display = 'flex';
-        menu.append(h1, btnPlay, btnScoreTable, btnOptions, footer);
-
-        break;
-    }
+  render() {
+    document.querySelector('.btn-play').addEventListener('click', () => this.play());
+    document.querySelector('.btn-score-table').addEventListener('click', () => this.scoreTable());
+    document.querySelector('.btn-options').addEventListener('click', () => this.options());
+    document.querySelectorAll('.back')[0].addEventListener('click', () => this.menu());
+    document.querySelectorAll('.back')[1].addEventListener('click', () => this.menu());
+    document.querySelector('.play').addEventListener('click', () => this.play());
+    document.querySelector('.backMenu').addEventListener('click', () => this.menu());
   }
 }
 
 const menu = new Menu();
-menu.renderMenu();
-
-const play = document.querySelector('.play');
-const backMenu = document.querySelector('.backMenu');
-
-play.addEventListener('click', () => {
-  menu.play();
-});
-backMenu.addEventListener('click', () => {
-  menu.renderMenu();
-});
+menu.render();
