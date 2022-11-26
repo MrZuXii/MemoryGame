@@ -1,10 +1,5 @@
 import MemoryGame from './memorygame.js';
 
-/* TODO Po skończeniu gry dodać napis zwycięstwo i dwa buttony zagraj ponownie i wyniki
-   TODO dodać animacje trzęsienie jak jest zła karta itp.
-   TODO Dodać menu startowe z opcjami: Graj, Dźwiek, Opcje, Tablica wyników
-   TODO Dodać inne obrazki
-*/
 class Menu {
   constructor() {
     this.name = (localStorage.getItem('name') ? localStorage.getItem('name') : 'Anonymous');

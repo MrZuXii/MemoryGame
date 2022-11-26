@@ -171,7 +171,7 @@ export default class MemoryGame {
     overFlow.style.display = 'block';
     const win = document.querySelector('.win');
     backMenu.style.display = 'block';
-    win.textContent = 'Wygrałeś';
+    win.textContent = 'You Win';
     this.saveToLocalStorageScore();
     setTimeout(() => {
       win.classList.add('on');
