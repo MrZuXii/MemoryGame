@@ -119,26 +119,27 @@ body {
 
 .buttonsSection {
     display: flex;
-    width: 350px;
-    margin: auto;
+    padding: 17px;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .lvlComplete {
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
     margin: auto;
     background: #222;
     border: 6px solid #000;
     box-sizing: border-box;
     height: 270px;
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .play,.backMenu{
     color: white;
     background: #242424;
     border: 0;
-    font-size: 24px;
+    font-size: 17px;
     font-weight: 500;
     cursor: pointer;
     text-transform: uppercase;
@@ -146,17 +147,15 @@ body {
     border-radius: 10px;
     letter-spacing: 1.5px;
     border-bottom: 6px solid #000;
+    height: 55px;
+    width: 130px;
 }
 
-.play {
-    height: 75px;
-    width: 150px;
-}
+/*.play {*/
+/*}*/
 
-.backMenu {
-    height: 75px;
-    width: 150px;
-}
+/*.backMenu {*/
+/*}*/
 .yourScore {
     color: white;
     height: 50px;
@@ -308,7 +307,6 @@ footer {
         width: 100%;
         background: none;
     }
-
     .cards {
         max-width: 600px;
         width: 100%;
@@ -322,7 +320,7 @@ footer {
         flex-basis: calc(25% - 8px);
     }
 
-    .menu {
+    .menu, .lvlComplete {
         width: 96%;
     }
 
